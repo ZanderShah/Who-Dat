@@ -24,13 +24,13 @@ def show_frame():
         imag = z.create_image(0, 0, image=imgtk, anchor='nw')
         lmain.imgtk = imgtk
         test = z.create_text(root.winfo_screenwidth()/2, root.winfo_screenheight() ,text = "Unlock your device with your face!", font=('Comic Sans MS', 50), fill = 'white', anchor = 's', tag = 'test')
-        who = Image.open("who.jpg")
+        who = Image.open("img/who.jpg")
         who = who.resize((250, 250), Image.ANTIALIAS)
         meme2 = ImageTk.PhotoImage(who)
         whoMeme = Label(z, image=meme2, bd="0")
         whoMeme.image = meme2
         whoMemes = z.create_window(root.winfo_screenwidth(), 0, window=whoMeme, anchor='ne')
-        image = Image.open("ugly1.jpg")
+        image = Image.open("img/ugly1.jpg")
         image = image.resize((250,250), Image.ANTIALIAS)
         meme1 = ImageTk.PhotoImage(image)
         meme = Label(z, image=meme1, bd="0")
