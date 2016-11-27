@@ -61,12 +61,12 @@ pathdir='/Users/ZanderShah/git/Project_Twice/Faces'
 
 #Initialization:
 def init():
-	quanti = int(raw_input('How many web cams are there?\n Number: '))
-	for i in range(quanti):
-		nome = raw_input('Hello user '+str(i+1)+', what is your name?\n name:')
+	# quanti = int(raw_input('How many web cams are there?\n Number: '))
+	# for i in range(quanti):
+		# nome = raw_input('Hello user '+str(i+1)+', what is your name?\n name:')
+	nome = 'A'
 	if not os.path.exists(os.path.join(pathdir,nome)): 
 		os.makedirs(pathdir+'/'+nome)
-	print 'Are you ready for some pictures?\n'
 	# while (1):
 	#     ret,frame = vc.read()
 
@@ -104,6 +104,8 @@ def judge():
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.2, 3)
 
+    ret = 1
+
     for (x,y,w,h) in faces:
         
         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
@@ -112,14 +114,44 @@ def judge():
         sampleImage = cv2.resize(sampleImage, (256,256))
 
         [a1, a2] = model1.predict(sampleImage)
-        print int(a2['distances'])
+
+        cv2.imshow('Result', img)
+
         if int(a2['distances']) <=  10000:
             cv2.putText(img,'You are found', (x,y), cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,250),3,1)
         else:
         	cv2.putText(img,'Who dat', (x,y), cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,250),3,1)
-    cv2.imshow('result',img)
-    if cv2.waitKey(10) == 27:
-        return
+        	ret = 0    	
+
+    cv2.imshow('result', img)
+    cv2.waitKey(10)
+    return ret
+
+
+# def judge():
+#     rval, frame = vc.read()
+
+#     img = frame
+#     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+#     faces = face_cascade.detectMultiScale(gray, 1.2, 3)
+
+#     for (x,y,w,h) in faces:
+        
+#         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+        
+#         sampleImage = gray[y:y+h, x:x+w]
+#         sampleImage = cv2.resize(sampleImage, (256,256))
+
+#         [a1, a2] = model1.predict(sampleImage)
+#         print int(a2['distances'])
+#         if int(a2['distances']) <=  10000:
+#             cv2.putText(img,'You are found', (x,y), cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,250),3,1)
+#         else:
+#         	cv2.putText(img,'Who dat', (x,y), cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,250),3,1)
+#     cv2.imshow('result',img)
+#     if cv2.waitKey(10) == 27:
+#         return
+
 
 init()
 [X,y,subject_names] = read_images(pathdir)
@@ -129,7 +161,9 @@ subject_dictionary = dict(zip(list_of_labels, subject_names))
 model1.compute(X, y)      
 
 while 1:
-	judge()
+	ans = judge()
+	if (ans == 0):
+		break
 
 cv2.destroyAllWindows()
 vc.release()
