@@ -4,7 +4,6 @@ import cv2
 from PIL import Image, ImageTk
 
 cap = cv2.VideoCapture(0)
-trials = 0;
 root = tk.Tk()
 root.bind('<Escape>', lambda e: root.quit())
 root.overrideredirect(1)
@@ -29,16 +28,15 @@ def show_frame():
         meme2 = ImageTk.PhotoImage(who)
         whoMeme = Label(z, image=meme2, bd="0")
         whoMeme.image = meme2
-        if trials == 1 : whoMemes = z.create_window(root.winfo_screenwidth(), 0, window=whoMeme, anchor='ne')
+        whoMemes = z.create_window(root.winfo_screenwidth(), 0, window=whoMeme, anchor='ne')
         image = Image.open("img/ugly1.jpg")
         image = image.resize((250,250), Image.ANTIALIAS)
         meme1 = ImageTk.PhotoImage(image)
         meme = Label(z, image=meme1, bd="0")
         meme.image = meme1
-        if trials == 2 : memes = z.create_window(0, 0, window=meme, anchor='nw')
+        memes = z.create_window(0, 0, window=meme, anchor='nw')
         lmain.configure(image=imgtk, bd="0")
         lmain.after(10, show_frame)
-        ++trials
 
 lmain.pack()
 show_frame()
